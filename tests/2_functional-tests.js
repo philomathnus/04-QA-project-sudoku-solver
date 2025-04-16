@@ -14,17 +14,17 @@ suite('Functional Tests', () => {
                 solution: '769235418851496372432178956174569283395842761628713549283657194516924837947381625'
             };
             chai.request(server)
-            .keepOpen()
-            .post('/api/solve')
-            .type('form')
-            .send({
-                puzzle: '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..'
-            })
-            .end((err, res) => {
-                assert.equal(res.status, 200);
-                assert.deepEqual(res.body, expectedResponse);
-                done();
-            });
+                .keepOpen()
+                .post('/api/solve')
+                .type('form')
+                .send({
+                    puzzle: '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..'
+                })
+                .end((err, res) => {
+                    assert.equal(res.status, 200);
+                    assert.deepEqual(res.body, expectedResponse);
+                    done();
+                });
         });
 
         test('Solve a puzzle with missing puzzle string: POST request to /api/solve', (done) => {
@@ -32,17 +32,17 @@ suite('Functional Tests', () => {
                 error: 'Required field missing'
             };
             chai.request(server)
-            .keepOpen()
-            .post('/api/solve')
-            .type('form')
-            .send({
-                puzzle: ''
-            })
-            .end((err, res) => {
-                assert.equal(res.status, 200);
-                assert.deepEqual(res.body, expectedResponse);
-                done();
-            });
+                .keepOpen()
+                .post('/api/solve')
+                .type('form')
+                .send({
+                    puzzle: ''
+                })
+                .end((err, res) => {
+                    assert.equal(res.status, 200);
+                    assert.deepEqual(res.body, expectedResponse);
+                    done();
+                });
         });
 
         test('Solve a puzzle with invalid characters: POST request to /api/solve', (done) => {
@@ -50,17 +50,17 @@ suite('Functional Tests', () => {
                 error: 'Invalid characters in puzzle'
             };
             chai.request(server)
-            .keepOpen()
-            .post('/api/solve')
-            .type('form')
-            .send({
-                puzzle: 'A.9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..'
-            })
-            .end((err, res) => {
-                assert.equal(res.status, 200);
-                assert.deepEqual(res.body, expectedResponse);
-                done();
-            });
+                .keepOpen()
+                .post('/api/solve')
+                .type('form')
+                .send({
+                    puzzle: 'A.9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..'
+                })
+                .end((err, res) => {
+                    assert.equal(res.status, 200);
+                    assert.deepEqual(res.body, expectedResponse);
+                    done();
+                });
         });
 
         test('Solve a puzzle with incorrect length: POST request to /api/solve', (done) => {
@@ -68,17 +68,35 @@ suite('Functional Tests', () => {
                 error: 'Expected puzzle to be 81 characters long'
             };
             chai.request(server)
-            .keepOpen()
-            .post('/api/solve')
-            .type('form')
-            .send({
-                puzzle: '...9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..'
-            })
-            .end((err, res) => {
-                assert.equal(res.status, 200);
-                assert.deepEqual(res.body, expectedResponse);
-                done();
-            });
+                .keepOpen()
+                .post('/api/solve')
+                .type('form')
+                .send({
+                    puzzle: '...9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..'
+                })
+                .end((err, res) => {
+                    assert.equal(res.status, 200);
+                    assert.deepEqual(res.body, expectedResponse);
+                    done();
+                });
+        });
+
+        test('Solve a puzzle that cannot be solved: POST request to /api/solve', (done) => {
+            const expectedResponse = {
+                error: 'Puzzle cannot be solved'
+            };
+            chai.request(server)
+                .keepOpen()
+                .post('/api/solve')
+                .type('form')
+                .send({
+                    puzzle: '..9..5.1.85.4....2432..3...1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..'
+                })
+                .end((err, res) => {
+                    assert.equal(res.status, 200);
+                    assert.deepEqual(res.body, expectedResponse);
+                    done();
+                });
         });
     });
 

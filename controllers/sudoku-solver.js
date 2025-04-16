@@ -180,13 +180,9 @@ class SudokuSolver {
     }
   }
 
-  checkArrayIncludes(arr, seachString) {
-    return arr.some(row => row.includes(seachString));
-  }
-
   findNextEmptyBox(puzzleAsArray, numOfColsAndRows = 9) {
     for (let row = 0; row < numOfColsAndRows; row++) {
-      for(let col = 0; col < numOfColsAndRows; col++) {
+      for (let col = 0; col < numOfColsAndRows; col++) {
         if (puzzleAsArray[row][col] === '.') {
           return {
             row: row,
@@ -226,13 +222,23 @@ class SudokuSolver {
     return puzzleAsArray;
   }
 
+  isPuzzleSolved(puzzleAsArray, seachString = '.') {
+    return !puzzleAsArray.some(row => row.includes(seachString));
+  }
+
   solve(puzzleString) {
     try {
       this.validate(puzzleString);
       const solutionAsArray = this.solveValidPuzzle(this.transformStringToMatrix(puzzleString));
-      return {
-        solution: this.transformMatrixToString(solutionAsArray)
-      };
+      if (this.isPuzzleSolved(solutionAsArray)) {
+        return {
+          solution: this.transformMatrixToString(solutionAsArray)
+        };
+      } else {
+        return {
+          error: 'Puzzle cannot be solved'
+        };
+      }
     } catch (err) {
       return { error: err.message };
     }
