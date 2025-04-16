@@ -62,4 +62,24 @@ suite('Unit Tests', () => {
             assert.isFalse(solver.checkRegionPlacement(validPuzzleString, 'E', 5, 7));
         });
     });
+
+    suite('Solver->solve', () => {
+        test('Valid puzzle strings pass the solver', () => {
+            const validPuzzleString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
+            assert.property(solver.solve(validPuzzleString), "solution");
+        });
+        
+        test('Invalid puzzle strings fail the solver', () => {
+            const invalidPuzzleString = 'A.9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
+            assert.property(solver.solve(invalidPuzzleString), "error");
+        });
+
+        test('Solver returns the expected solution for an incomplete puzzle', () => {
+            const validPuzzleString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
+            const expectedSolution = {
+                solution: '769235418851496372432178956174569283395842761628713549283657194516924837947381625'
+            };
+            assert.deepEqual(solver.solve(validPuzzleString), expectedSolution);
+        });
+    });
 });

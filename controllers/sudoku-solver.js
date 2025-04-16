@@ -10,25 +10,41 @@ class SudokuSolver {
     if (!(puzzleString.length === validPuzzleStringLength)) {
       throw new Error("Expected puzzle to be 81 characters long");
     }
-    return '';
+    return puzzleString;
+  }
+
+  getCoordinate(rowIndex, colIndex) {
+    const rowIndicator = this.trnasformIndexToRowIndicator(rowIndex);
+    return rowIndicator + ++colIndex;
   }
 
   validateCoordinate(coordinate) {
-    const validCharacters = /[^A-I1-9/i]/;
-    if (coordinate.match(validCharacters)) {
+    const validCharacters = /^[A-I1-9/i]/;
+    if (!coordinate.match(validCharacters)) {
       throw new Error("Invalid coordinate");
-
     }
   }
 
   validateValue(value) {
     const validCharacters = /[^1-9]/;
+    value = '' + value;
     if (value.match(validCharacters)) {
       throw new Error("Invalid value");
     }
   }
 
-  transformStringToMatrix(puzzleString, numOfColsAndRows) {
+  transformMatrixToString(matrix, numOfColsAndRows = 9) {
+    let puzzleString = '', row, col;
+
+    for (row = 0; row < numOfColsAndRows; row++) {
+      for (col = 0; col < numOfColsAndRows; col++) {
+        puzzleString += '' + matrix[row][col];
+      }
+    }
+    return puzzleString;
+  }
+
+  transformStringToMatrix(puzzleString, numOfColsAndRows = 9) {
     const puzzleStringAsArray = puzzleString.split('');
     let matrix = [], row, col;
 
@@ -40,6 +56,21 @@ class SudokuSolver {
       matrix[col].push(puzzleStringAsArray[row]);
     }
     return matrix;
+  }
+
+  trnasformIndexToRowIndicator(row) {
+    const indexToindicator = {
+      0: 'A',
+      1: 'B',
+      2: 'C',
+      3: 'D',
+      4: 'E',
+      5: 'F',
+      6: 'G',
+      7: 'H',
+      8: 'I'
+    };
+    return indexToindicator[row];
   }
 
   transformRowIndicatorToIndex(rowIndicatorString) {
@@ -149,7 +180,62 @@ class SudokuSolver {
     }
   }
 
+  checkArrayIncludes(arr, seachString) {
+    return arr.some(row => row.includes(seachString));
+  }
+
+  findNextEmptyBox(puzzleAsArray, numOfColsAndRows = 9) {
+    for (let row = 0; row < numOfColsAndRows; row++) {
+      for(let col = 0; col < numOfColsAndRows; col++) {
+        if (puzzleAsArray[row][col] === '.') {
+          return {
+            row: row,
+            col: col
+          };
+        }
+      }
+    }
+    //no empty box found
+    return {
+      row: -1,
+      col: -1
+    };
+  }
+
+  solveValidPuzzle(puzzleAsArray, numOfColsAndRows = 9) {
+    const emptyBox = this.findNextEmptyBox(puzzleAsArray);
+
+    if (emptyBox.row === -1) {
+      //no empty boxes left, solution found
+      return puzzleAsArray;
+    }
+    const coordinate = this.getCoordinate(emptyBox.row, emptyBox.col);
+
+    //find value to fill empty box
+    for (let value = 1; value <= numOfColsAndRows; value++) {
+      const checkResult = this.check(this.transformMatrixToString(puzzleAsArray), coordinate, value);
+      if (checkResult.valid) {
+        puzzleAsArray[emptyBox.row][emptyBox.col] = value;
+        this.solveValidPuzzle(puzzleAsArray);
+      }
+    }
+
+    if (this.findNextEmptyBox(puzzleAsArray).row !== -1) {
+      puzzleAsArray[emptyBox.row][emptyBox.col] = '.';
+    }
+    return puzzleAsArray;
+  }
+
   solve(puzzleString) {
+    try {
+      this.validate(puzzleString);
+      const solutionAsArray = this.solveValidPuzzle(this.transformStringToMatrix(puzzleString));
+      return {
+        solution: this.transformMatrixToString(solutionAsArray)
+      };
+    } catch (err) {
+      return { error: err.message };
+    }
   }
 }
 
