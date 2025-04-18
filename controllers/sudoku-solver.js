@@ -19,6 +19,7 @@ class SudokuSolver {
   }
 
   validateCoordinate(coordinate) {
+    console.log(`Check coordinate ${coordinate}`);
     const validCharacters = /^[A-I1-9/i]/;
     if (coordinate.length > 2 || !coordinate.match(validCharacters)) {
       throw new Error("Invalid coordinate");
