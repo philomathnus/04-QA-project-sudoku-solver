@@ -113,8 +113,7 @@ class SudokuSolver {
     return indices;
   }
 
-  checkRowPlacement(puzzleString, row, column, value) {
-    const puzzleMatrix = this.transformStringToMatrix(puzzleString, 9);
+  checkRowPlacement(puzzleMatrix, row, column, value) {
     const rowIndex = this.transformRowIndicatorToIndex(row);
     const valueAsString = '' + value;
 
@@ -122,8 +121,7 @@ class SudokuSolver {
     return !puzzleMatrix[rowIndex].includes(valueAsString);
   }
 
-  checkColPlacement(puzzleString, row, column, value) {
-    const puzzleMatrix = this.transformStringToMatrix(puzzleString, 9);
+  checkColPlacement(puzzleMatrix, row, column, value) {
     const colIndex = column - 1;
     const valueAsString = '' + value;
     const columnValues = puzzleMatrix.map(row => row[colIndex]);
@@ -132,8 +130,7 @@ class SudokuSolver {
     return !columnValues.includes(valueAsString);
   }
 
-  checkRegionPlacement(puzzleString, row, column, value) {
-    const puzzleMatrix = this.transformStringToMatrix(puzzleString, 9);
+  checkRegionPlacement(puzzleMatrix, row, column, value) {
     const valueAsString = '' + value;
     const colIndex = column - 1;
     const rowIndex = this.transformRowIndicatorToIndex(row);
@@ -159,17 +156,19 @@ class SudokuSolver {
       let conflicts = [];
       const row = coordinate[0];
       const column = coordinate[1];
-      if (!this.checkColPlacement(puzzleString, row, column, value)) {
+      const puzzleMatrix = this.transformStringToMatrix(puzzleString, 9);
+
+      if (!this.checkColPlacement(puzzleMatrix, row, column, value)) {
         checkResult.valid = false;
         conflicts.push('column');
         checkResult.conflict = conflicts;
       }
-      if (!this.checkRowPlacement(puzzleString, row, column, value)) {
+      if (!this.checkRowPlacement(puzzleMatrix, row, column, value)) {
         checkResult.valid = false;
         conflicts.push('row');
         checkResult.conflict = conflicts;
       }
-      if (!this.checkRegionPlacement(puzzleString, row, column, value)) {
+      if (!this.checkRegionPlacement(puzzleMatrix, row, column, value)) {
         checkResult.valid = false;
         conflicts.push('region');
         checkResult.conflict = conflicts;
