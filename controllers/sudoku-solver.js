@@ -20,7 +20,7 @@ class SudokuSolver {
 
   validateCoordinate(coordinate) {
     const validCharacters = /^[A-I1-9/i]/;
-    if (!coordinate.match(validCharacters)) {
+    if (coordinate.length > 2 || !coordinate.match(validCharacters)) {
       throw new Error("Invalid coordinate");
     }
   }
@@ -245,4 +245,3 @@ class SudokuSolver {
 }
 
 module.exports = SudokuSolver;
-
