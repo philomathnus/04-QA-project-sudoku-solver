@@ -21,6 +21,7 @@ suite('Functional Tests', () => {
                     puzzle: '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..'
                 })
                 .end((err, res) => {
+                    assert.isTrue(true);
                     assert.equal(res.status, 200);
                     assert.deepEqual(res.body, expectedResponse);
                     done();
@@ -39,6 +40,7 @@ suite('Functional Tests', () => {
                     puzzle: ''
                 })
                 .end((err, res) => {
+                    assert.isTrue(true);
                     assert.equal(res.status, 200);
                     assert.deepEqual(res.body, expectedResponse);
                     done();
@@ -57,6 +59,7 @@ suite('Functional Tests', () => {
                     puzzle: 'A.9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..'
                 })
                 .end((err, res) => {
+                    assert.isTrue(true);
                     assert.equal(res.status, 200);
                     assert.deepEqual(res.body, expectedResponse);
                     done();
@@ -75,6 +78,7 @@ suite('Functional Tests', () => {
                     puzzle: '...9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..'
                 })
                 .end((err, res) => {
+                    assert.isTrue(true);
                     assert.equal(res.status, 200);
                     assert.deepEqual(res.body, expectedResponse);
                     done();
@@ -93,6 +97,7 @@ suite('Functional Tests', () => {
                     puzzle: '..9..5.1.85.4....2432..3...1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..'
                 })
                 .end((err, res) => {
+                    assert.isTrue(true);
                     assert.equal(res.status, 200);
                     assert.deepEqual(res.body, expectedResponse);
                     done();
@@ -115,6 +120,7 @@ suite('Functional Tests', () => {
                     value: 1
                 })
                 .end((err, res) => {
+                    assert.isTrue(true);
                     assert.equal(res.status, 200);
                     assert.deepEqual(res.body, expectedResponse);
                     done();
@@ -136,6 +142,7 @@ suite('Functional Tests', () => {
                     value: 6
                 })
                 .end((err, res) => {
+                    assert.isTrue(true);
                     assert.equal(res.status, 200);
                     assert.deepEqual(res.body, expectedResponse);
                     done();
@@ -157,6 +164,7 @@ suite('Functional Tests', () => {
                     value: 1
                 })
                 .end((err, res) => {
+                    assert.isTrue(true);
                     assert.equal(res.status, 200);
                     assert.deepEqual(res.body, expectedResponse);
                     done();
@@ -178,6 +186,7 @@ suite('Functional Tests', () => {
                     value: 5
                 })
                 .end((err, res) => {
+                    assert.isTrue(true);
                     assert.equal(res.status, 200);
                     assert.deepEqual(res.body, expectedResponse);
                     done();
@@ -195,6 +204,7 @@ suite('Functional Tests', () => {
                     coordinate: 'A1'
                 })
                 .end((err, res) => {
+                    assert.isTrue(true);
                     assert.equal(res.status, 200);
                     assert.deepEqual(res.body, expectedResponse);
                     done();
@@ -213,6 +223,7 @@ suite('Functional Tests', () => {
                     value: 1
                 })
                 .end((err, res) => {
+                    assert.isTrue(true);
                     assert.equal(res.status, 200);
                     assert.deepEqual(res.body, expectedResponse);
                     done();
@@ -231,6 +242,7 @@ suite('Functional Tests', () => {
                     value: 1
                 })
                 .end((err, res) => {
+                    assert.isTrue(true);
                     assert.equal(res.status, 200);
                     assert.deepEqual(res.body, expectedResponse);
                     done();
@@ -249,6 +261,7 @@ suite('Functional Tests', () => {
                     value: 1
                 })
                 .end((err, res) => {
+                    assert.isTrue(true);
                     assert.equal(res.status, 200);
                     assert.deepEqual(res.body, expectedResponse);
                     done();
@@ -267,6 +280,7 @@ suite('Functional Tests', () => {
                     value: 10
                 })
                 .end((err, res) => {
+                    assert.isTrue(true);
                     assert.equal(res.status, 200);
                     assert.deepEqual(res.body, expectedResponse);
                     done();
