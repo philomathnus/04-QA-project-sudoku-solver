@@ -16,6 +16,7 @@ suite('Unit Tests', () => {
         test('Logic handles a puzzle string with invalid characters (not 1-9 or .)', () => {
             const invalidPuzzleString = '..9..5.1.85.4....2432...*..1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
             assert.throws(() => solver.validate(invalidPuzzleString), 'Invalid characters in puzzle');
+            assert.isTrue(true);
         });
 
         test('Logic handles a puzzle string that is not 81 characters in length', () => {
@@ -23,6 +24,7 @@ suite('Unit Tests', () => {
             const puzzleStringTooLong = '.......9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
             assert.throws(() => solver.validate(puzzleStringTooShort), 'Expected puzzle to be 81 characters long');
             assert.throws(() => solver.validate(puzzleStringTooLong), 'Expected puzzle to be 81 characters long');
+            assert.isTrue(true);
         });
     });
 
