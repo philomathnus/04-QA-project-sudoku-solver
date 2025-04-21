@@ -29,13 +29,13 @@ suite('Unit Tests', () => {
         test('Logic handles a valid row placement', () => {
             const validPuzzleString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
             const validPuzzleMatrix = solver.transformStringToMatrix(validPuzzleString);
-            assert.isTrue(solver.checkRowPlacement(validPuzzleMatrix, 'A', 1, 3));
+            assert.isTrue(solver.isValidRowPlacement(validPuzzleMatrix, 'A', 1, 3));
         });
 
         test('Logic handles an invalid row placement', () => {
             const validPuzzleString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
             const validPuzzleMatrix = solver.transformStringToMatrix(validPuzzleString);
-            assert.isFalse(solver.checkRowPlacement(validPuzzleMatrix, 'A', 1, 9));
+            assert.isFalse(solver.isValidRowPlacement(validPuzzleMatrix, 'A', 1, 9));
         });
     });
 
@@ -43,13 +43,13 @@ suite('Unit Tests', () => {
         test('Logic handles a valid column placement', () => {
             const validPuzzleString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
             const validPuzzleMatrix = solver.transformStringToMatrix(validPuzzleString);
-            assert.isTrue(solver.checkColPlacement(validPuzzleMatrix, 'D', 2, 8));
+            assert.isTrue(solver.isValidColPlacement(validPuzzleMatrix, 'D', 2, 8));
         });
 
         test('Logic handles an invalid column placement', () => {
             const validPuzzleString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
             const validPuzzleMatrix = solver.transformStringToMatrix(validPuzzleString);
-            assert.isFalse(solver.checkColPlacement(validPuzzleMatrix, 'D', 2, 4));
+            assert.isFalse(solver.isValidColPlacement(validPuzzleMatrix, 'D', 2, 4));
         });
     });
 
@@ -57,13 +57,13 @@ suite('Unit Tests', () => {
         test('Logic handles a valid region (3x3 grid) placement', () => {
             const validPuzzleString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
             const validPuzzleMatrix = solver.transformStringToMatrix(validPuzzleString);
-            assert.isTrue(solver.checkRegionPlacement(validPuzzleMatrix, 'D', 4, 3));
+            assert.isTrue(solver.isValidRegionPlacement(validPuzzleMatrix, 'D', 4, 3));
         });
 
         test('Logic handles an invalid region (3x3 grid) placement', () => {
             const validPuzzleString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
             const validPuzzleMatrix = solver.transformStringToMatrix(validPuzzleString);
-            assert.isFalse(solver.checkRegionPlacement(validPuzzleMatrix, 'E', 5, 7));
+            assert.isFalse(solver.isValidRegionPlacement(validPuzzleMatrix, 'E', 5, 7));
         });
     });
 
@@ -77,7 +77,7 @@ suite('Unit Tests', () => {
 
         test('Logic handles an invalid row placement', () => {
             const validPuzzleString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
-            const expectedReponse = { 
+            const expectedReponse = {
                 valid: false,
                 conflict: ['row']
             };
@@ -92,7 +92,7 @@ suite('Unit Tests', () => {
 
         test('Logic handles an invalid column placement', () => {
             const validPuzzleString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
-            const expectedReponse = { 
+            const expectedReponse = {
                 valid: false,
                 conflict: ['column']
             };
@@ -107,7 +107,7 @@ suite('Unit Tests', () => {
 
         test('Logic handles an invalid region (3x3 grid) placement', () => {
             const validPuzzleString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
-            const expectedReponse = { 
+            const expectedReponse = {
                 valid: false,
                 conflict: ['region']
             };
@@ -116,15 +116,15 @@ suite('Unit Tests', () => {
 
         test('Invalid coordinate', () => {
             const validPuzzleString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
-            const expectedReponse = { error: 'Invalid coordinate'};
+            const expectedReponse = { error: 'Invalid coordinate' };
             assert.deepEqual(solver.check(validPuzzleString, 'A0', 3), expectedReponse);
         });
 
-        /*         test('Allow value already existing in coordinate, if it is valid', () => {
+        test('Allow value already existing in coordinate, if it is valid', () => {
             const validPuzzleString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
             const expectedResponse = { valid: true };
             assert.deepEqual(solver.check(validPuzzleString, 'A3', 9), expectedResponse);
-        }); */
+        });
     });
 
     suite('Solver->solve', () => {

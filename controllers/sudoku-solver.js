@@ -19,7 +19,6 @@ class SudokuSolver {
   }
 
   validateCoordinate(coordinate) {
-    console.log(`Check coordinate ${coordinate}`);
     const validCharacters = /^[A-I][1-9]/;
     if (coordinate.length > 2 || !coordinate.match(validCharacters)) {
       throw new Error("Invalid coordinate");
@@ -114,7 +113,7 @@ class SudokuSolver {
     return indices;
   }
 
-  checkRowPlacement(puzzleMatrix, row, column, value) {
+  isValidRowPlacement(puzzleMatrix, row, column, value) {
     const rowIndex = this.transformRowIndicatorToIndex(row);
     const valueAsString = '' + value;
 
@@ -122,7 +121,7 @@ class SudokuSolver {
     return !puzzleMatrix[rowIndex].includes(valueAsString);
   }
 
-  checkColPlacement(puzzleMatrix, row, column, value) {
+  isValidColPlacement(puzzleMatrix, row, column, value) {
     const colIndex = column - 1;
     const valueAsString = '' + value;
     const columnValues = puzzleMatrix.map(row => row[colIndex]);
@@ -131,7 +130,7 @@ class SudokuSolver {
     return !columnValues.includes(valueAsString);
   }
 
-  checkRegionPlacement(puzzleMatrix, row, column, value) {
+  isValidRegionPlacement(puzzleMatrix, row, column, value) {
     const valueAsString = '' + value;
     const colIndex = column - 1;
     const rowIndex = this.transformRowIndicatorToIndex(row);
@@ -148,6 +147,16 @@ class SudokuSolver {
     return !regionArray.includes(valueAsString);
   }
 
+  isValidPlacement(puzzleString, coordinate, value) {
+    const row = coordinate[0];
+    const column = coordinate[1];
+    const puzzleMatrix = this.transformStringToMatrix(puzzleString, 9);
+
+    return this.isValidColPlacement(puzzleMatrix, row, column, value) &&
+      this.isValidRowPlacement(puzzleMatrix, row, column, value) &&
+      this.isValidRegionPlacement(puzzleMatrix, row, column, value);
+  }
+
   check(puzzleString, coordinate, value) {
     try {
       this.validate(puzzleString);
@@ -157,19 +166,24 @@ class SudokuSolver {
       let conflicts = [];
       const row = coordinate[0];
       const column = coordinate[1];
-      const puzzleMatrix = this.transformStringToMatrix(puzzleString, 9);
 
-      if (!this.checkColPlacement(puzzleMatrix, row, column, value)) {
+      let puzzleMatrix = this.transformStringToMatrix(puzzleString, 9);
+
+      if(puzzleMatrix[this.transformRowIndicatorToIndex(row)][column - 1] == value) {
+        puzzleMatrix[this.transformRowIndicatorToIndex(row)][column - 1] = '.';
+      }
+
+      if (!this.isValidColPlacement(puzzleMatrix, row, column, value)) {
         checkResult.valid = false;
         conflicts.push('column');
         checkResult.conflict = conflicts;
       }
-      if (!this.checkRowPlacement(puzzleMatrix, row, column, value)) {
+      if (!this.isValidRowPlacement(puzzleMatrix, row, column, value)) {
         checkResult.valid = false;
         conflicts.push('row');
         checkResult.conflict = conflicts;
       }
-      if (!this.checkRegionPlacement(puzzleMatrix, row, column, value)) {
+      if (!this.isValidRegionPlacement(puzzleMatrix, row, column, value)) {
         checkResult.valid = false;
         conflicts.push('region');
         checkResult.conflict = conflicts;
@@ -209,8 +223,9 @@ class SudokuSolver {
 
     //find value to fill empty box
     for (let value = 1; value <= numOfColsAndRows; value++) {
-      const checkResult = this.check(this.transformMatrixToString(puzzleAsArray), coordinate, value);
-      if (checkResult.valid) {
+      //const checkResult = this.check(this.transformMatrixToString(puzzleAsArray), coordinate, value);
+      const isValid = this.isValidPlacement(this.transformMatrixToString(puzzleAsArray), coordinate, value);
+      if (isValid) {
         puzzleAsArray[emptyBox.row][emptyBox.col] = value;
         this.solveValidPuzzle(puzzleAsArray);
       }
