@@ -142,7 +142,7 @@ suite('Functional Tests', () => {
                 });
         });
 
-        test('Check a puzzle placement with single placement conflict: POST request to /api/check', (done) => {
+        test('Check a puzzle placement with multiple placement conflict: POST request to /api/check', (done) => {
             const expectedResponse = {
                 valid: false,
                 conflict: ['column', 'row']
