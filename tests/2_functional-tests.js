@@ -35,9 +35,7 @@ suite('Functional Tests', () => {
                 .keepOpen()
                 .post('/api/solve')
                 .type('form')
-                .send({
-                    puzzle: ''
-                })
+                .send({})
                 .end((err, res) => {
                     assert.equal(res.status, 200);
                     assert.deepEqual(res.body, expectedResponse);
