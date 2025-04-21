@@ -147,16 +147,6 @@ class SudokuSolver {
     return !regionArray.includes(valueAsString);
   }
 
-  isValidPlacement(puzzleString, coordinate, value) {
-    const row = coordinate[0];
-    const column = coordinate[1];
-    const puzzleMatrix = this.transformStringToMatrix(puzzleString, 9);
-
-    return this.isValidColPlacement(puzzleMatrix, row, column, value) &&
-      this.isValidRowPlacement(puzzleMatrix, row, column, value) &&
-      this.isValidRegionPlacement(puzzleMatrix, row, column, value);
-  }
-
   check(puzzleString, coordinate, value) {
     try {
       this.validate(puzzleString);
@@ -223,9 +213,8 @@ class SudokuSolver {
 
     //find value to fill empty box
     for (let value = 1; value <= numOfColsAndRows; value++) {
-      //const checkResult = this.check(this.transformMatrixToString(puzzleAsArray), coordinate, value);
-      const isValid = this.isValidPlacement(this.transformMatrixToString(puzzleAsArray), coordinate, value);
-      if (isValid) {
+      const checkResult = this.check(this.transformMatrixToString(puzzleAsArray), coordinate, value);
+      if (checkResult.valid) {
         puzzleAsArray[emptyBox.row][emptyBox.col] = value;
         this.solveValidPuzzle(puzzleAsArray);
       }
