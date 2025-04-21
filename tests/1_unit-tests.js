@@ -10,6 +10,7 @@ suite('Unit Tests', () => {
         test('Logic handles a valid puzzle string of 81 characters', () => {
             const validPuzzleString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
             assert.doesNotThrow(() => solver.validate(validPuzzleString));
+            assert.equal(solver.validate(validPuzzleString), validPuzzleString);
         });
 
         test('Logic handles a puzzle string with invalid characters (not 1-9 or .)', () => {
@@ -73,6 +74,7 @@ suite('Unit Tests', () => {
             const validPuzzleString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
             const expectedReponse = { valid: true };
             assert.deepEqual(solver.check(validPuzzleString, 'A1', 7), expectedReponse);
+            assert.property(solver.check(validPuzzleString, 'A1', 7), 'valid');
         });
 
         test('Logic handles an invalid row placement', () => {
@@ -82,12 +84,14 @@ suite('Unit Tests', () => {
                 conflict: ['row']
             };
             assert.deepEqual(solver.check(validPuzzleString, 'A4', 1), expectedReponse);
+            assert.property(solver.check(validPuzzleString, 'A4', 1), 'conflict');
         });
 
         test('Logic handles a valid column placement', () => {
             const validPuzzleString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
             const expectedReponse = { valid: true };
             assert.deepEqual(solver.check(validPuzzleString, 'G3', 3), expectedReponse);
+            assert.notProperty(solver.check(validPuzzleString, 'G3', 3), 'conflict');
         });
 
         test('Logic handles an invalid column placement', () => {
@@ -131,6 +135,7 @@ suite('Unit Tests', () => {
         test('Valid puzzle strings pass the solver', () => {
             const validPuzzleString = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
             assert.property(solver.solve(validPuzzleString), "solution");
+            assert.equal(solver.solve(validPuzzleString).solution, '769235418851496372432178956174569283395842761628713549283657194516924837947381625');
         });
 
         test('Invalid puzzle strings fail the solver', () => {
